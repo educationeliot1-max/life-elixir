@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+<title>Life Elixir — Premium Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --green:#1B2A4A;
+  --green-dark:#111D33;
+  --green-light:#EEF1F7;
+  --gold:#B8922A;
+  --gold-light:#FBF6EC;
+  --black:#0D1620;
+  --gray-dark:#2E3A4A;
+  --gray:#7A7A7A;
+  --gray-light:#F2F2F2;
+  --white:#FFFFFF;
+  --red:#C0392B;
+  --orange:#D4691E;
+  --border:#DDE1E8;
+  --radius:14px;
+  --radius-sm:8px;
+  --shadow:0 2px 14px rgba(13,22,32,0.10);
+  --shadow-lg:0 8px 36px rgba(13,22,32,0.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Sarabun','Noto Sans Thai',sans-serif;background:#F5F5F5;color:var(--black);max-width:430px;margin:0 auto;min-height:100vh;overflow-x:hidden;position:relative}
+
+/* ────── PAGE SYSTEM ────── */
+.page{display:none;flex-direction:column;min-height:100vh;padding-bottom:72px;animation:fadeIn .2s ease}
+.page.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* ────── TOP BAR ────── */
+.topbar{background:var(--green);color:#fff;padding:14px 16px 14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:8px}
+.topbar-title{font-size:18px;font-weight:700;letter-spacing:.3px;flex:1}
+.topbar-subtitle{font-size:12px;opacity:.85;font-weight:400}
+.topbar-actions{display:flex;gap:8px;align-items:center}
+.icon-btn{background:rgba(255,255,255,.18);border:none;color:#fff;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;transition:background .15s}
+.icon-btn:active{background:rgba(255,255,255,.3)}
+
+/* ────── TIME BANNER ────── */
+.time-banner{padding:10px 16px;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.time-banner.allowed{background:var(--green-light);color:#006600}
+.time-banner.blocked{background:#FFF0F0;color:var(--red)}
+.time-banner .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.time-banner.allowed .dot{background:var(--green)}
+.time-banner.blocked .dot{background:var(--red)}
+
+/* ────── SCROLL CONTAINER ────── */
+.scroll-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+/* ────── PROMO BANNER ────── */
+.promo-banner{margin:12px 16px;background:linear-gradient(135deg,#1A1A2E 0%,#16213E 50%,#0F3460 100%);border-radius:var(--radius);padding:18px;color:#fff;position:relative;overflow:hidden}
+.promo-banner::before{content:'🍾';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:54px;opacity:.25}
+.promo-badge{background:var(--gold);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:6px;letter-spacing:.4px}
+.promo-title{font-size:19px;font-weight:700;margin-bottom:4px;line-height:1.3}
+.promo-sub{font-size:13px;opacity:.8}
+.promo-cta{margin-top:12px;background:var(--gold);color:#fff;border:none;padding:9px 20px;border-radius:30px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:.3px;transition:opacity .15s}
+.promo-cta:active{opacity:.8}
+
+/* ────── SECTION ────── */
+.section{margin:0 0 8px}
+.section-header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 8px}
+.section-title{font-size:16px;font-weight:700;color:var(--black)}
+.section-more{font-size:13px;color:var(--green);font-weight:600}
+
+/* ────── CATEGORY PILLS ────── */
+.category-scroll{display:flex;gap:8px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none}
+.category-scroll::-webkit-scrollbar{display:none}
+.cat-pill{white-space:nowrap;padding:7px 16px;border-radius:30px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;border:1.5px solid var(--border);background:#fff;color:var(--gray-dark);flex-shrink:0}
+.cat-pill.active{background:var(--navy, #1B2A4A);color:#fff;border-color:#1B2A4A}
+
+/* ────── PRODUCT GRID ────── */
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 16px 8px}
+.product-card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s}
+.product-card:active{transform:scale(.97)}
+.product-img{width:100%;height:120px;background:var(--gray-light);display:flex;align-items:center;justify-content:center;font-size:44px;position:relative}
+.product-badge{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.product-badge.new{background:var(--green)}
+.product-info{padding:10px}
+.product-name{font-size:13px;font-weight:600;color:var(--black);margin-bottom:3px;line-height:1.3}
+.product-sub{font-size:11px;color:var(--gray);margin-bottom:6px}
+.product-price-row{display:flex;align-items:center;justify-content:space-between}
+.product-price{font-size:15px;font-weight:700;color:var(--black)}
+.product-price span{font-size:11px;font-weight:400;color:var(--gray)}
+.add-btn{width:28px;height:28px;background:var(--green);border:none;border-radius:50%;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;line-height:1}
+.add-btn:active{background:var(--green-dark);transform:scale(.9)}
+
+/* ────── PARTNER BANNER ────── */
+.partner-scroll{display:flex;gap:10px;padding:0 16px 12px;overflow-x:auto;scrollbar-width:none}
+.partner-scroll::-webkit-scrollbar{display:none}
+.partner-card{flex-shrink:0;width:160px;background:#fff;border-radius:var(--radius-sm);padding:12px;border:1px solid var(--border);box-shadow:var(--shadow)}
+.partner-logo{font-size:28px;margin-bottom:6px}
+.partner-name{font-size:13px;font-weight:700;color:var(--black)}
+.partner-tag{font-size:11px;color:var(--gray);margin-top:2px}
+.partner-free-badge{background:var(--gold-light);color:var(--gold);font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;margin-top:6px;display:inline-block}
+
+/* ────── BOTTOM NAV ────── */
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-top:1px solid var(--border);display:flex;z-index:200;padding-bottom:env(safe-area-inset-bottom)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 4px 6px;cursor:pointer;color:var(--gray);font-size:10px;font-weight:600;gap:3px;transition:color .15s;position:relative}
+.nav-item.active{color:var(--gold)}
+.nav-icon{font-size:22px;line-height:1}
+.nav-badge{position:absolute;top:5px;right:calc(50% - 18px);background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 3px}
+
+/* ────── CART SHEET ────── */
+.cart-sheet{position:fixed;inset:0;z-index:300;display:none}
+.cart-sheet.open{display:block}
+.cart-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);animation:fadeOverlay .2s ease}
+@keyframes fadeOverlay{from{opacity:0}to{opacity:1}}
+.cart-panel{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:#fff;border-radius:20px 20px 0 0;max-height:85vh;overflow-y:auto;animation:slideUp .25s ease;padding-bottom:env(safe-area-inset-bottom)}
+@keyframes slideUp{from{transform:translateX(-50%) translateY(100%)}to{transform:translateX(-50%) translateY(0)}}
+.cart-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
+.cart-header{padding:14px 16px;font-size:17px;font-weight:700;border-bottom:1px solid var(--gray-light)}
+.cart-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--gray-light)}
+.cart-item-emoji{font-size:30px;width:44px;text-align:center}
+.cart-item-info{flex:1}
+.cart-item-name{font-size:14px;font-weight:600}
+.cart-item-price{font-size:13px;color:var(--gray)}
+.cart-item-qty{display:flex;align-items:center;gap:8px}
+.qty-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--border);background:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--black);transition:all .15s;line-height:1}
+.qty-btn:active{background:var(--gray-light)}
+.qty-num{font-size:15px;font-weight:700;min-width:20px;text-align:center}
+
+/* ────── CART SUMMARY ────── */
+.cart-summary{padding:14px 16px;background:var(--gray-light);margin:8px 16px;border-radius:var(--radius-sm)}
+.summary-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0}
+.summary-row.total{font-size:16px;font-weight:700;padding-top:8px;border-top:1px solid var(--border);margin-top:4px}
+.summary-row.discount{color:var(--green);font-weight:600}
+
+/* ────── ADDRESS PAGE ────── */
+.address-list{padding:12px 16px;display:flex;flex-direction:column;gap:10px}
+.address-card{background:#fff;border-radius:var(--radius);padding:14px;border:1.5px solid var(--border);cursor:pointer;transition:border-color .15s;display:flex;align-items:flex-start;gap:12px}
+.address-card.selected{border-color:var(--green);background:var(--green-light)}
+.address-icon{font-size:22px;margin-top:2px}
+.address-info{flex:1}
+.address-label{font-size:13px;font-weight:700;color:var(--black)}
+.address-detail{font-size:13px;color:var(--gray);margin-top:3px;line-height:1.5}
+.address-check{font-size:18px;color:var(--green);align-self:center}
+
+/* ────── ADD ADDRESS ────── */
+.add-address-btn{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#fff;border-radius:var(--radius);border:1.5px dashed var(--green);color:var(--green);font-size:14px;font-weight:600;cursor:pointer;margin:0 16px;font-family:inherit;width:calc(100% - 32px);transition:background .15s}
+.add-address-btn:active{background:var(--green-light)}
+
+/* ────── PROFILE PAGE ────── */
+.profile-header{background:var(--green);padding:24px 16px 20px;color:#fff;display:flex;align-items:center;gap:14px}
+.avatar{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:2px solid rgba(255,255,255,.5)}
+.profile-name{font-size:18px;font-weight:700}
+.profile-verified{font-size:12px;opacity:.85;display:flex;align-items:center;gap:4px;margin-top:3px}
+
+.menu-group{background:#fff;border-radius:var(--radius);margin:12px 16px;overflow:hidden;box-shadow:var(--shadow)}
+.menu-item{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;border-bottom:1px solid var(--gray-light);transition:background .15s}
+.menu-item:last-child{border-bottom:none}
+.menu-item:active{background:var(--gray-light)}
+.menu-icon{font-size:20px;width:28px;text-align:center}
+.menu-text{flex:1;font-size:15px;font-weight:500}
+.menu-arrow{color:var(--gray);font-size:14px}
+.menu-badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+.menu-value{font-size:13px;color:var(--gray)}
+
+/* ────── ADMIN PAGE ────── */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:12px 16px}
+.stat-card{background:#fff;border-radius:var(--radius-sm);padding:14px;box-shadow:var(--shadow)}
+.stat-label{font-size:12px;color:var(--gray);font-weight:500;margin-bottom:6px}
+.stat-value{font-size:22px;font-weight:700;color:var(--black)}
+.stat-sub{font-size:11px;color:var(--green);font-weight:600;margin-top:3px}
+
+.order-list{padding:0 16px;display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.order-card{background:#fff;border-radius:var(--radius-sm);padding:14px;box-shadow:var(--shadow)}
+.order-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.order-id{font-size:13px;font-weight:700;color:var(--black)}
+.order-time{font-size:11px;color:var(--gray)}
+.order-status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px}
+.order-status.pending{background:#FFF3E0;color:var(--orange)}
+.order-status.delivering{background:var(--green-light);color:var(--green-dark)}
+.order-status.done{background:var(--gray-light);color:var(--gray)}
+.order-customer{font-size:13px;color:var(--gray-dark);display:flex;align-items:center;gap:4px}
+.order-total{font-size:15px;font-weight:700;color:var(--black);margin-top:6px}
+.order-commission{font-size:12px;color:var(--gold);font-weight:600}
+
+/* ────── CHECKOUT BUTTON ────── */
+.sticky-bottom{position:sticky;bottom:0;padding:12px 16px;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid var(--border)}
+.checkout-btn{width:100%;background:var(--green);color:#fff;border:none;padding:15px;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:space-between;transition:background .15s}
+.checkout-btn:active{background:var(--green-dark)}
+.checkout-btn:disabled{background:#ccc;cursor:not-allowed}
+
+/* ────── MODAL ────── */
+.modal{position:fixed;inset:0;z-index:400;display:none;align-items:flex-end;justify-content:center}
+.modal.open{display:flex}
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5)}
+.modal-box{position:relative;background:#fff;border-radius:20px 20px 0 0;padding:20px 20px 32px;width:100%;max-width:430px;animation:slideUp .25s ease}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:14px}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--gray-light);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer}
+
+/* ────── FORM ────── */
+.form-group{margin-bottom:14px}
+.form-label{font-size:13px;font-weight:600;color:var(--gray-dark);margin-bottom:6px;display:block}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:inherit;color:var(--black);outline:none;transition:border-color .15s;background:#fff}
+.form-input:focus{border-color:var(--green)}
+.form-select{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:15px;font-family:inherit;color:var(--black);background:#fff;appearance:none;outline:none}
+
+/* ────── VAT CALC WIDGET ────── */
+.vat-widget{background:#fff;border-radius:var(--radius);padding:16px;margin:0 16px 12px;box-shadow:var(--shadow)}
+.vat-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:14px}
+.vat-row.highlight{font-size:16px;font-weight:700;padding-top:10px;border-top:1px solid var(--border);margin-top:4px}
+.vat-label{color:var(--gray)}
+.vat-value{font-weight:600;color:var(--black)}
+
+/* ────── TOAST ────── */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--black);color:#fff;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:600;white-space:nowrap;opacity:0;transition:all .3s;z-index:500;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ────── EMPTY STATE ────── */
+.empty-state{text-align:center;padding:60px 24px;color:var(--gray)}
+.empty-emoji{font-size:52px;margin-bottom:12px}
+.empty-text{font-size:15px;font-weight:600;color:var(--gray-dark);margin-bottom:6px}
+.empty-sub{font-size:13px}
+
+/* ────── TIME BLOCKED OVERLAY ────── */
+.time-blocked{text-align:center;padding:40px 24px;background:var(--gray-light);border-radius:var(--radius);margin:16px;display:none}
+.time-blocked.show{display:block}
+
+/* Share banner */
+.share-banner{background:var(--gold-light);border:1px solid var(--gold);border-radius:var(--radius-sm);margin:0 16px 12px;padding:12px;display:flex;align-items:center;gap:10px}
+.share-banner-text{flex:1;font-size:13px;color:var(--gray-dark);line-height:1.5}
+.share-banner-text strong{color:var(--gold);font-weight:700}
+.share-btn-small{background:var(--gold);color:#fff;border:none;padding:8px 14px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+
+
+.brand-serif{font-family:'Cormorant Garamond',serif;letter-spacing:.6px;}
+.topbar{background:linear-gradient(135deg,#1B2A4A 0%,#243552 100%);}
+.profile-header{background:linear-gradient(135deg,#1B2A4A 0%,#243552 100%);}
+.bottom-nav .nav-item.active{color:#B8922A;}
+.add-btn{background:#1B2A4A;}
+.add-btn:active{background:#111D33;}
+.checkout-btn{background:linear-gradient(135deg,#1B2A4A,#243552);}
+.checkout-btn:active{background:#111D33;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div class="page active" id="page-home">
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" style="font-family:'Cormorant Garamond',serif;font-size:22px;letter-spacing:.8px;font-weight:700">✦ Life Elixir</div>
+      <div class="topbar-subtitle" id="location-display">📍 บ้าน — ลำปาง</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" onclick="showPage('page-address')" title="เปลี่ยนที่อยู่">📌</button>
+      <button class="icon-btn" onclick="openCart()" title="ตะกร้า">🛒</button>
+    </div>
+  </div>
+
+  <div class="scroll-body">
+    <div class="time-banner allowed" id="time-banner">
+      <div class="dot"></div>
+      <span id="time-banner-text">เปิดรับสั่ง · ตอนนี้ 09:00 น.</span>
+    </div>
+
+    <!-- Promo -->
+    <div class="promo-banner">
+      <div class="promo-badge">โปรโมชัน</div>
+      <div class="promo-title">ค่าส่งฟรีครั้งแรก!<br/>Life Elixir ยินดีต้อนรับ</div>
+      <div class="promo-sub">สมัครสมาชิกวันนี้ รับส่วนลดทันที</div>
+      <button class="promo-cta" onclick="showToast('สมัครสมาชิกแล้ว! 🎉')">สมัครสมาชิกฟรี</button>
+    </div>
+
+    <!-- Share banner -->
+    <div class="share-banner">
+      <div>📲</div>
+      <div class="share-banner-text">แชร์แอปให้เพื่อน รับ <strong>ลดค่าส่ง 30 บาท</strong> ทันที!</div>
+      <button class="share-btn-small" onclick="shareApp()">แชร์</button>
+    </div>
+
+    <!-- Categories -->
+    <div class="section">
+      <div class="category-scroll" id="cat-scroll">
+        <div class="cat-pill active" onclick="filterCat('all',this)">ทั้งหมด</div>
+        <div class="cat-pill" onclick="filterCat('whisky',this)">วิสกี้ 🥃</div>
+        <div class="cat-pill" onclick="filterCat('beer',this)">เบียร์ 🍺</div>
+        <div class="cat-pill" onclick="filterCat('wine',this)">ไวน์ 🍷</div>
+        <div class="cat-pill" onclick="filterCat('vodka',this)">วอดก้า</div>
+        <div class="cat-pill" onclick="filterCat('mixer',this)">มิกเซอร์ 🥤</div>
+      </div>
+    </div>
+
+    <!-- Products -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">สินค้ายอดนิยม</div>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+
+    <!-- Partner bars -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-title">บาร์พาร์ทเนอร์ 🍸</div>
+        <div class="section-more" onclick="showToast('ดูบาร์ทั้งหมด')">ดูทั้งหมด</div>
+      </div>
+      <div class="partner-scroll">
+        <div class="partner-card">
+          <div class="partner-logo">🥂</div>
+          <div class="partner-name">The Rooftop Bar</div>
+          <div class="partner-tag">ลำปาง · เปิด 18:00</div>
+          <div class="partner-free-badge">โฆษณาฟรี 14 วัน</div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-logo">🎸</div>
+          <div class="partner-name">Rock & Roll Pub</div>
+          <div class="partner-tag">ลำปาง · เปิด 19:00</div>
+          <div class="partner-free-badge">โฆษณาฟรี 14 วัน</div>
+        </div>
+        <div class="partner-card">
+          <div class="partner-logo">🍺</div>
+          <div class="partner-name">Craft Beer House</div>
+          <div class="partner-tag">ลำปาง · เปิด 17:00</div>
+          <div class="partner-free-badge">โฆษณาฟรี 14 วัน</div>
+        </div>
+        <div class="partner-card" onclick="showToast('สมัครโฆษณาฟรี 14 วัน!')">
+          <div class="partner-logo">➕</div>
+          <div class="partner-name">ลงโฆษณาร้านคุณ</div>
+          <div class="partner-tag">สมัครฟรีสำหรับพาร์ทเนอร์</div>
+          <div class="partner-free-badge">ฟรี 14 วันแรก</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ORDER / CHECKOUT PAGE ═══════════════ -->
+<div class="page" id="page-order">
+  <div class="topbar">
+    <div class="topbar-title">สรุปออเดอร์</div>
+  </div>
+  <div class="scroll-body" id="order-scroll">
+    <div class="empty-state" id="order-empty">
+      <div class="empty-emoji">🛒</div>
+      <div class="empty-text">ตะกร้าว่างเปล่า</div>
+      <div class="empty-sub">เลือกสินค้าจากหน้าหลักก่อนนะ</div>
+    </div>
+    <div id="order-content" style="display:none">
+      <!-- Address selector -->
+      <div style="padding:12px 16px 6px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">📍 ที่อยู่จัดส่ง</div>
+        <div id="order-address-display" style="background:#fff;border-radius:10px;padding:12px;border:1.5px solid var(--green);font-size:13px;color:var(--gray-dark);cursor:pointer" onclick="showPage('page-address')">
+          กำลังโหลดที่อยู่...
+        </div>
+      </div>
+
+      <!-- Time check -->
+      <div id="order-time-check" style="display:none;background:#FFF0F0;border-radius:10px;margin:0 16px;padding:14px;text-align:center">
+        <div style="font-size:24px;margin-bottom:6px">⏰</div>
+        <div style="font-size:14px;font-weight:700;color:var(--red)">ขณะนี้อยู่ในช่วงเวลาห้ามขาย</div>
+        <div id="next-open-msg" style="font-size:13px;color:var(--gray);margin-top:4px"></div>
+      </div>
+
+      <!-- Cart items -->
+      <div style="padding:12px 16px 6px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">🛒 รายการสินค้า</div>
+      </div>
+      <div id="order-items"></div>
+
+      <!-- VAT Calc -->
+      <div style="padding:12px 16px 6px">
+        <div style="font-size:14px;font-weight:700;margin-bottom:8px">🧮 สรุปราคา</div>
+      </div>
+      <div class="vat-widget">
+        <div class="vat-row"><span class="vat-label">ราคาสินค้า</span><span class="vat-value" id="v-subtotal">฿0</span></div>
+        <div class="vat-row"><span class="vat-label">ค่าจัดส่ง</span><span class="vat-value" id="v-delivery">฿40</span></div>
+        <div class="vat-row" style="color:var(--green)"><span>ส่วนลดค่าส่ง</span><span id="v-discount" style="font-weight:600">-฿0</span></div>
+        <div class="vat-row"><span class="vat-label">VAT 7%</span><span class="vat-value" id="v-vat">฿0</span></div>
+        <div class="vat-row highlight"><span>รวมทั้งสิ้น</span><span id="v-total" style="color:var(--green)">฿0</span></div>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);font-size:12px;color:var(--gray);display:flex;justify-content:space-between">
+          <span>ส่วนแบ่งแพลตฟอร์ม (10%)</span>
+          <span id="v-commission" style="color:var(--gold);font-weight:600">฿0</span>
+        </div>
+        <div style="font-size:11px;color:var(--gray);margin-top:4px;text-align:right">ยอดที่ร้านรับ: <strong id="v-shop">฿0</strong></div>
+      </div>
+
+      <!-- Grab -->
+      <div style="background:#fff;border-radius:var(--radius);padding:14px;margin:0 16px 8px;box-shadow:var(--shadow)">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:28px">🟢</span>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:700">เรียก Grab</div>
+            <div style="font-size:12px;color:var(--gray)">ค้นหาไรเดอร์ใกล้คุณ ~15 นาที</div>
+          </div>
+          <button style="background:var(--green);color:#fff;border:none;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit" onclick="callGrab()">เรียกเลย</button>
+        </div>
+      </div>
+
+      <div style="height:8px"></div>
+    </div>
+  </div>
+  <div class="sticky-bottom" id="checkout-bar" style="display:none">
+    <button class="checkout-btn" id="checkout-btn" onclick="doCheckout()">
+      <span>ยืนยันสั่งซื้อ</span>
+      <span id="checkout-total-btn">฿0</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════ ADDRESS PAGE ═══════════════ -->
+<div class="page" id="page-address">
+  <div class="topbar">
+    <div class="topbar-title">📍 ที่อยู่จัดส่ง</div>
+  </div>
+  <div class="scroll-body">
+    <div style="padding:12px 0 6px">
+      <div style="padding:0 16px 10px;font-size:13px;color:var(--gray)">เลือกที่อยู่สำหรับการสั่งครั้งนี้ หรือเพิ่มที่อยู่ใหม่ได้เลย</div>
+    </div>
+    <div class="address-list" id="address-list"></div>
+    <button class="add-address-btn" onclick="openAddAddress()">
+      <span style="font-size:22px">＋</span> เพิ่มที่อยู่ใหม่
+    </button>
+    <div style="height:16px"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ PROFILE PAGE ═══════════════ -->
+<div class="page" id="page-profile">
+  <div class="profile-header">
+    <div class="avatar">👤</div>
+    <div>
+      <div class="profile-name" id="profile-name">นาย สมชาย ใจดี</div>
+      <div class="profile-verified">✅ ยืนยันตัวตนด้วย Thai ID แล้ว</div>
+    </div>
+  </div>
+  <div class="scroll-body">
+    <div class="menu-group">
+      <div class="menu-item" onclick="showToast('คะแนนสะสม: 240 แต้ม')">
+        <span class="menu-icon">⭐</span>
+        <span class="menu-text">คะแนนสะสม</span>
+        <span class="menu-value">240 แต้ม</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="showToast('ประวัติคำสั่งซื้อ 12 รายการ')">
+        <span class="menu-icon">📋</span>
+        <span class="menu-text">ประวัติคำสั่งซื้อ</span>
+        <span class="menu-badge">12</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="showPage('page-address')">
+        <span class="menu-icon">📍</span>
+        <span class="menu-text">ที่อยู่จัดส่ง</span>
+        <span class="menu-value">3 แห่ง</span>
+        <span class="menu-arrow">›</span>
+      </div>
+    </div>
+
+    <div class="menu-group">
+      <div class="menu-item" onclick="showPage('page-admin')">
+        <span class="menu-icon">🔧</span>
+        <span class="menu-text">หลังบ้าน (Admin)</span>
+        <span class="menu-badge" style="background:var(--gold)">3</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="shareApp()">
+        <span class="menu-icon">📲</span>
+        <span class="menu-text">แชร์แอป รับส่วนลด</span>
+        <span class="menu-value" style="color:var(--green)">+฿30</span>
+        <span class="menu-arrow">›</span>
+      </div>
+      <div class="menu-item" onclick="showToast('แอปนี้สร้างด้วย LINE LIFF')">
+        <span class="menu-icon">ℹ️</span>
+        <span class="menu-text">เกี่ยวกับแอป</span>
+        <span class="menu-value">v1.0.0</span>
+        <span class="menu-arrow">›</span>
+      </div>
+    </div>
+
+    <!-- Thai ID section -->
+    <div class="menu-group">
+      <div style="padding:14px 16px;background:var(--green-light);border-radius:var(--radius);margin:0">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+          <span style="font-size:20px">🇹🇭</span>
+          <div style="font-size:14px;font-weight:700">Thai ID ยืนยันตัวตนแล้ว</div>
+        </div>
+        <div style="font-size:12px;color:var(--gray-dark);line-height:1.6">ระบบใช้ <strong>บัตรประชาชนดิจิทัล (Thai ID)</strong> เพื่อยืนยันอายุและตัวตนตามกฎหมาย ข้อมูลถูกเข้ารหัสและปลอดภัย</div>
+      </div>
+    </div>
+
+    <div style="height:16px"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ ADMIN PAGE ═══════════════ -->
+<div class="page" id="page-admin">
+  <div class="topbar">
+    <button class="icon-btn" onclick="showPage('page-profile')" style="margin-right:4px">←</button>
+    <div class="topbar-title">🔧 หลังบ้าน</div>
+  </div>
+  <div class="scroll-body">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">ออเดอร์วันนี้</div>
+        <div class="stat-value">23</div>
+        <div class="stat-sub">↑ 15% จากเมื่อวาน</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">ยอดขาย (บาท)</div>
+        <div class="stat-value" id="admin-revenue">8,450</div>
+        <div class="stat-sub" style="color:var(--gold)">Commission ฿845</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">สต็อกเหลือ</div>
+        <div class="stat-value">142</div>
+        <div class="stat-sub" style="color:var(--orange)">⚠️ 3 รายการใกล้หมด</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">ไรเดอร์ออนไลน์</div>
+        <div class="stat-value">7</div>
+        <div class="stat-sub">Grab เชื่อมต่อแล้ว</div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <div class="section-title">ออเดอร์ล่าสุด</div>
+      <div class="section-more" onclick="showToast('ดูออเดอร์ทั้งหมด')">ดูทั้งหมด</div>
+    </div>
+    <div class="order-list">
+      <div class="order-card">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-001</div><div class="order-time">09:42 น.</div></div>
+          <span class="order-status delivering">กำลังส่ง</span>
+        </div>
+        <div class="order-customer">👤 นาย ก. วงศ์ใหญ่ · 📍 ถ.วังเหนือ</div>
+        <div class="order-total">฿ 1,284 <span class="order-commission">คอม ฿128</span></div>
+      </div>
+      <div class="order-card">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-002</div><div class="order-time">09:28 น.</div></div>
+          <span class="order-status pending">รอยืนยัน</span>
+        </div>
+        <div class="order-customer">👤 นาง ข. ขุนเขา · 📍 ถ.พหลโยธิน</div>
+        <div class="order-total">฿ 856 <span class="order-commission">คอม ฿86</span></div>
+      </div>
+      <div class="order-card">
+        <div class="order-top">
+          <div><div class="order-id">#ORD-003</div><div class="order-time">08:55 น.</div></div>
+          <span class="order-status done">ส่งแล้ว</span>
+        </div>
+        <div class="order-customer">👤 บาร์ The Rooftop · 📍 ใจกลางเมือง</div>
+        <div class="order-total">฿ 3,200 <span class="order-commission">คอม ฿320</span></div>
+      </div>
+    </div>
+
+    <!-- Stock alerts -->
+    <div class="section-header"><div class="section-title">⚠️ สต็อกใกล้หมด</div></div>
+    <div style="padding:0 16px 12px;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#FFF8E8;border:1px solid #E6C560;border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;font-weight:600">🥃 Johnnie Walker Red</span>
+        <span style="font-size:13px;color:var(--orange);font-weight:700">เหลือ 3 ขวด</span>
+      </div>
+      <div style="background:#FFF8E8;border:1px solid #E6C560;border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;font-weight:600">🍺 Chang Beer (ลัง)</span>
+        <span style="font-size:13px;color:var(--orange);font-weight:700">เหลือ 1 ลัง</span>
+      </div>
+    </div>
+    <div style="height:8px"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ CART SHEET ═══════════════ -->
+<div class="cart-sheet" id="cart-sheet">
+  <div class="cart-overlay" onclick="closeCart()"></div>
+  <div class="cart-panel">
+    <div class="cart-handle"></div>
+    <div class="cart-header">🛒 ตะกร้าสินค้า</div>
+    <div id="cart-items-list"></div>
+    <div id="cart-empty-msg" style="padding:30px 16px;text-align:center;color:var(--gray);font-size:14px">ตะกร้าว่างเปล่า</div>
+    <div id="cart-bottom" style="display:none">
+      <div style="padding:12px 16px">
+        <div class="cart-summary">
+          <div class="summary-row"><span>ราคาสินค้า</span><span id="cs-sub">฿0</span></div>
+          <div class="summary-row"><span>ค่าจัดส่ง</span><span id="cs-del">฿40</span></div>
+          <div class="summary-row discount"><span>ส่วนลด</span><span id="cs-disc">-฿0</span></div>
+          <div class="summary-row"><span>VAT 7%</span><span id="cs-vat">฿0</span></div>
+          <div class="summary-row total"><span>รวม</span><span id="cs-total" style="color:var(--green)">฿0</span></div>
+        </div>
+      </div>
+      <div style="padding:0 16px 20px">
+        <button class="checkout-btn" onclick="closeCart();showPage('page-order')">
+          <span>ดูออเดอร์และชำระเงิน</span>
+          <span id="cs-total-btn">฿0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ ADD ADDRESS MODAL ═══════════════ -->
+<div class="modal" id="modal-address">
+  <div class="modal-overlay" onclick="closeModal('modal-address')"></div>
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('modal-address')">✕</button>
+    <div class="modal-title">เพิ่มที่อยู่ใหม่</div>
+    <div class="form-group">
+      <label class="form-label">ชื่อที่อยู่ (เช่น บ้าน, ที่ทำงาน)</label>
+      <input class="form-input" id="addr-label" placeholder="บ้าน" maxlength="20"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">บ้านเลขที่ / อาคาร / ชั้น</label>
+      <input class="form-input" id="addr-no" placeholder="99/9 หมู่ 3"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ถนน / ซอย</label>
+      <input class="form-input" id="addr-road" placeholder="ถ.ประสานมิตร"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">ตำบล / อำเภอ / จังหวัด</label>
+      <input class="form-input" id="addr-area" placeholder="เวียงเหนือ เมือง ลำปาง"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">หมายเหตุถึงไรเดอร์</label>
+      <input class="form-input" id="addr-note" placeholder="หน้าร้านสีแดง โทรก่อนส่ง"/>
+    </div>
+    <button class="checkout-btn" onclick="saveAddress()" style="margin-top:4px">
+      <span>บันทึกที่อยู่</span><span>✓</span>
+    </button>
+  </div>
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <div class="nav-item active" id="nav-home" onclick="showPage('page-home')">
+    <div class="nav-icon">🏠</div>
+    <span>หน้าหลัก</span>
+  </div>
+  <div class="nav-item" id="nav-order" onclick="showPage('page-order')">
+    <div class="nav-icon">📋</div>
+    <span>ออเดอร์</span>
+    <div class="nav-badge" id="cart-badge" style="display:none">0</div>
+  </div>
+  <div class="nav-item" id="nav-address" onclick="showPage('page-address')">
+    <div class="nav-icon">📍</div>
+    <span>ที่อยู่</span>
+  </div>
+  <div class="nav-item" id="nav-profile" onclick="showPage('page-profile')">
+    <div class="nav-icon">👤</div>
+    <span>โปรไฟล์</span>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ════ DATA ════
+const PRODUCTS = [
+  {id:1,name:'Johnnie Walker Red',sub:'Blended Scotch 700ml',price:680,emoji:'🥃',cat:'whisky'},
+  {id:2,name:'Heineken',sub:'24 กระป๋อง / ลัง',price:520,emoji:'🍺',cat:'beer',badge:'ลด 10%'},
+  {id:3,name:'Cabernet Sauvignon',sub:'Red Wine 750ml',price:490,emoji:'🍷',cat:'wine',badge:'ใหม่'},
+  {id:4,name:'Absolut Vodka',sub:'Original 700ml',price:590,emoji:'🍸',cat:'vodka'},
+  {id:5,name:'Chang Beer',sub:'6 กระป๋อง',price:180,emoji:'🍻',cat:'beer'},
+  {id:6,name:'Singha Beer',sub:'6 ขวด',price:200,emoji:'🍺',cat:'beer'},
+  {id:7,name:'Leo Beer',sub:'24 กระป๋อง',price:480,emoji:'🍺',cat:'beer'},
+  {id:8,name:'Ruang Khao',sub:'เหล้าขาว 1 ลิตร',price:185,emoji:'🥛',cat:'whisky'},
+  {id:9,name:'Sodastream',sub:'น้ำโซดา 1 ลิตร',price:65,emoji:'🥤',cat:'mixer',badge:'ใหม่'},
+  {id:10,name:'Coke Zero',sub:'6 กระป๋อง',price:85,emoji:'🥤',cat:'mixer'},
+];
+
+const ADDRESSES_DEFAULT = [
+  {id:1,label:'บ้าน',emoji:'🏠',detail:'99 ถ.ประสานมิตร เวียงเหนือ เมืองลำปาง 52000',note:'หน้าบ้านสีฟ้า',selected:true},
+  {id:2,label:'ที่ทำงาน',emoji:'🏢',detail:'55/1 ถ.วังเหนือ ชั้น 2 เมืองลำปาง',note:'โทรก่อนส่ง',selected:false},
+  {id:3,label:'บาร์ประจำ',emoji:'🍸',detail:'The Rooftop Bar ถ.พหลโยธิน ลำปาง',note:'รับที่เคาน์เตอร์',selected:false},
+];
+
+// ════ STATE ════
+let cart = {};
+let addresses = JSON.parse(localStorage.getItem('addr') || 'null') || ADDRESSES_DEFAULT;
+let isFirstOrder = true;
+let currentCat = 'all';
+
+// ════ TIME RESTRICTION ════
+const BLOCKED_RANGES = [[0,11],[14,17],[24,25]];
+function getHour(){return new Date().getHours() + new Date().getMinutes()/60;}
+function isBlocked(h){return BLOCKED_RANGES.some(([s,e])=>h>=s&&h<e);}
+function nextOpenTime(h){
+  if(h<11)return '11:00 น.';
+  if(h>=14&&h<17)return '17:00 น.';
+  if(h>=24||h<0)return '11:00 น. (พรุ่งนี้)';
+  return null;
+}
+function updateTimeBanner(){
+  const h=getHour();
+  const blocked=isBlocked(h);
+  const banner=document.getElementById('time-banner');
+  const text=document.getElementById('time-banner-text');
+  const now=new Date();
+  const timeStr=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0')+' น.';
+  banner.className='time-banner '+(blocked?'blocked':'allowed');
+  text.textContent=blocked?`⛔ ช่วงเวลาห้ามขาย · ${timeStr} · เปิดอีกครั้ง ${nextOpenTime(h)}`:`เปิดรับสั่ง · ตอนนี้ ${timeStr}`;
+
+  const orderTimeCheck=document.getElementById('order-time-check');
+  const nextMsg=document.getElementById('next-open-msg');
+  const checkoutBtn=document.getElementById('checkout-btn');
+  if(orderTimeCheck){
+    orderTimeCheck.style.display=blocked?'block':'none';
+    if(blocked&&nextMsg) nextMsg.textContent='เปิดรับสั่งอีกครั้ง '+nextOpenTime(h);
+    if(checkoutBtn) checkoutBtn.disabled=blocked;
+  }
+}
+
+// ════ PAGE NAV ════
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const map={'page-home':'nav-home','page-order':'nav-order','page-address':'nav-address','page-profile':'nav-profile'};
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(map[id]) document.getElementById(map[id]).classList.add('active');
+  if(id==='page-order') renderOrderPage();
+  if(id==='page-address') renderAddresses();
+  updateTimeBanner();
+}
+
+// ════ PRODUCTS ════
+function renderProducts(cat='all'){
+  const grid=document.getElementById('product-grid');
+  const items=cat==='all'?PRODUCTS:PRODUCTS.filter(p=>p.cat===cat);
+  grid.innerHTML=items.map(p=>`
+    <div class="product-card" onclick="addToCart(${p.id})">
+      <div class="product-img">
+        ${p.badge?`<div class="product-badge ${p.badge==='ใหม่'?'new':''}">${p.badge}</div>`:''}
+        ${p.emoji}
+      </div>
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-sub">${p.sub}</div>
+        <div class="product-price-row">
+          <div class="product-price">฿${p.price.toLocaleString()}</div>
+          <button class="add-btn" onclick="event.stopPropagation();addToCart(${p.id})">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCat(cat,el){
+  currentCat=cat;
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  renderProducts(cat);
+}
+
+// ════ CART ════
+function addToCart(id){
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
+  cart[id]=(cart[id]||0)+1;
+  updateCartBadge();
+  showToast(`เพิ่ม ${p.name} ✓`);
+  animateCart();
+}
+
+function removeFromCart(id){
+  if(cart[id]>1) cart[id]--;
+  else delete cart[id];
+  updateCartBadge();
+  renderCartSheet();
+  renderOrderPage();
+}
+
+function addCartItem(id){
+  cart[id]=(cart[id]||0)+1;
+  updateCartBadge();
+  renderCartSheet();
+  renderOrderPage();
+}
+
+function updateCartBadge(){
+  const total=Object.values(cart).reduce((a,b)=>a+b,0);
+  const badge=document.getElementById('cart-badge');
+  badge.style.display=total>0?'flex':'none';
+  badge.textContent=total;
+}
+
+function animateCart(){
+  const btn=document.querySelector('#nav-order .nav-icon');
+  if(!btn) return;
+  btn.style.transform='scale(1.4)';
+  setTimeout(()=>btn.style.transform='',200);
+}
+
+function calcCart(){
+  let subtotal=0;
+  Object.entries(cart).forEach(([id,qty])=>{
+    const p=PRODUCTS.find(x=>x.id==id);
+    if(p) subtotal+=p.price*qty;
+  });
+  const delivery=subtotal>0?40:0;
+  const discount=isFirstOrder&&subtotal>0?40:0;
+  const deliveryNet=Math.max(0,delivery-discount);
+  const vat=Math.round((subtotal+deliveryNet)*0.07);
+  const total=subtotal+deliveryNet+vat;
+  const commission=Math.round(subtotal*0.1);
+  const shopTotal=subtotal-commission;
+  return{subtotal,delivery,discount,deliveryNet,vat,total,commission,shopTotal};
+}
+
+function openCart(){
+  renderCartSheet();
+  document.getElementById('cart-sheet').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeCart(){
+  document.getElementById('cart-sheet').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function renderCartSheet(){
+  const list=document.getElementById('cart-items-list');
+  const empty=document.getElementById('cart-empty-msg');
+  const bottom=document.getElementById('cart-bottom');
+  const keys=Object.keys(cart);
+  if(keys.length===0){
+    list.innerHTML='';empty.style.display='block';bottom.style.display='none';return;
+  }
+  empty.style.display='none';bottom.style.display='block';
+  list.innerHTML=keys.map(id=>{
+    const p=PRODUCTS.find(x=>x.id==id);
+    if(!p)return '';
+    return `<div class="cart-item">
+      <div class="cart-item-emoji">${p.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${p.name}</div>
+        <div class="cart-item-price">฿${p.price.toLocaleString()} / ชิ้น</div>
+      </div>
+      <div class="cart-item-qty">
+        <button class="qty-btn" onclick="removeFromCart(${id})">−</button>
+        <span class="qty-num">${cart[id]}</span>
+        <button class="qty-btn" onclick="addCartItem(${id})">+</button>
+      </div>
+    </div>`;
+  }).join('');
+  const c=calcCart();
+  document.getElementById('cs-sub').textContent='฿'+c.subtotal.toLocaleString();
+  document.getElementById('cs-del').textContent='฿'+c.delivery.toLocaleString();
+  document.getElementById('cs-disc').textContent='-฿'+c.discount.toLocaleString();
+  document.getElementById('cs-vat').textContent='฿'+c.vat.toLocaleString();
+  document.getElementById('cs-total').textContent='฿'+c.total.toLocaleString();
+  document.getElementById('cs-total-btn').textContent='฿'+c.total.toLocaleString();
+}
+
+// ════ ORDER PAGE ════
+function renderOrderPage(){
+  const keys=Object.keys(cart);
+  const empty=document.getElementById('order-empty');
+  const content=document.getElementById('order-content');
+  const checkoutBar=document.getElementById('checkout-bar');
+  if(keys.length===0){empty.style.display='flex';content.style.display='none';checkoutBar.style.display='none';return;}
+  empty.style.display='none';content.style.display='block';checkoutBar.style.display='block';
+
+  // Address
+  const sel=addresses.find(a=>a.selected)||addresses[0];
+  if(sel){
+    document.getElementById('location-display').textContent='📍 '+sel.label+' — ลำปาง';
+    document.getElementById('order-address-display').innerHTML=`<strong>${sel.emoji} ${sel.label}</strong><br/>${sel.detail}${sel.note?'<br/><span style="color:var(--gray)">หมายเหตุ: '+sel.note+'</span>':''}`;
+  }
+
+  // Items
+  const itemsEl=document.getElementById('order-items');
+  itemsEl.innerHTML=keys.map(id=>{
+    const p=PRODUCTS.find(x=>x.id==id);
+    if(!p) return '';
+    return `<div class="cart-item">
+      <div class="cart-item-emoji">${p.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${p.name}</div>
+        <div class="cart-item-price">฿${p.price.toLocaleString()} × ${cart[id]}</div>
+      </div>
+      <div class="cart-item-qty">
+        <button class="qty-btn" onclick="removeFromCart(${id});renderOrderPage()">−</button>
+        <span class="qty-num">${cart[id]}</span>
+        <button class="qty-btn" onclick="addCartItem(${id});renderOrderPage()">+</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Calc
+  const c=calcCart();
+  document.getElementById('v-subtotal').textContent='฿'+c.subtotal.toLocaleString();
+  document.getElementById('v-delivery').textContent='฿'+c.delivery.toLocaleString();
+  document.getElementById('v-discount').textContent='-฿'+c.discount.toLocaleString();
+  document.getElementById('v-vat').textContent='฿'+c.vat.toLocaleString();
+  document.getElementById('v-total').textContent='฿'+c.total.toLocaleString();
+  document.getElementById('v-commission').textContent='฿'+c.commission.toLocaleString();
+  document.getElementById('v-shop').textContent='฿'+c.shopTotal.toLocaleString();
+  document.getElementById('checkout-total-btn').textContent='฿'+c.total.toLocaleString();
+
+  updateTimeBanner();
+}
+
+// ════ ADDRESSES ════
+function renderAddresses(){
+  const list=document.getElementById('address-list');
+  list.innerHTML=addresses.map(a=>`
+    <div class="address-card ${a.selected?'selected':''}" onclick="selectAddress(${a.id})">
+      <div class="address-icon">${a.emoji}</div>
+      <div class="address-info">
+        <div class="address-label">${a.label}</div>
+        <div class="address-detail">${a.detail}${a.note?'<br/>📝 '+a.note:''}</div>
+      </div>
+      ${a.selected?'<div class="address-check">✓</div>':''}
+    </div>
+  `).join('');
+}
+
+function selectAddress(id){
+  addresses.forEach(a=>a.selected=a.id===id);
+  localStorage.setItem('addr',JSON.stringify(addresses));
+  const sel=addresses.find(a=>a.id===id);
+  document.getElementById('location-display').textContent='📍 '+sel.label+' — ลำปาง';
+  renderAddresses();
+  showToast('เลือกที่อยู่: '+sel.label+' ✓');
+}
+
+function openAddAddress(){openModal('modal-address');}
+
+function saveAddress(){
+  const label=document.getElementById('addr-label').value||'ที่อยู่ใหม่';
+  const no=document.getElementById('addr-no').value;
+  const road=document.getElementById('addr-road').value;
+  const area=document.getElementById('addr-area').value;
+  const note=document.getElementById('addr-note').value;
+  if(!no){showToast('กรุณากรอกบ้านเลขที่');return;}
+  const emojiMap={'บ้าน':'🏠','ที่ทำงาน':'🏢','คอนโด':'🏙️','บาร์':'🍸'};
+  const emoji=emojiMap[label]||'📍';
+  const newAddr={id:Date.now(),label,emoji,detail:[no,road,area].filter(Boolean).join(' '),note,selected:false};
+  addresses.push(newAddr);
+  localStorage.setItem('addr',JSON.stringify(addresses));
+  closeModal('modal-address');
+  renderAddresses();
+  showToast('เพิ่มที่อยู่ '+label+' แล้ว ✓');
+  ['addr-label','addr-no','addr-road','addr-area','addr-note'].forEach(id=>document.getElementById(id).value='');
+}
+
+// ════ CHECKOUT ════
+function doCheckout(){
+  const h=getHour();
+  if(isBlocked(h)){showToast('⛔ ขณะนี้อยู่ในช่วงเวลาห้ามขาย');return;}
+  isFirstOrder=false;
+  showToast('✅ สั่งซื้อสำเร็จ! กำลังหาไรเดอร์...');
+  cart={};
+  updateCartBadge();
+  renderOrderPage();
+  renderCartSheet();
+  setTimeout(()=>showPage('page-home'),1500);
+}
+
+function callGrab(){showToast('🟢 กำลังค้นหาไรเดอร์ Grab...');}
+
+// ════ SHARE ════
+function shareApp(){
+  if(navigator.share){
+    navigator.share({title:'Life Elixir — Premium Delivery',text:'พรีเมียม เดลิเวอรี่ผ่าน LINE ค่าส่งฟรีครั้งแรก! 🍾',url:'https://example.com/lao-delivery'});
+  } else {
+    showToast('📲 คัดลอกลิงก์แชร์แล้ว! รับส่วนลด ฿30');
+  }
+}
+
+// ════ MODAL ════
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+// ════ TOAST ════
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+// ════ INIT ════
+renderProducts();
+renderAddresses();
+updateTimeBanner();
+setInterval(updateTimeBanner,60000);
+
+// ════════════════════════════════════════
+//  SIMULATION / DEMO TOUR
+// ════════════════════════════════════════
+const DEMO_STEPS = [
+  {
+    page:'page-home',
+    title:'🏠 หน้าหลัก',
+    body:'ลูกค้าเห็นสินค้า โปรโมชัน และบาร์พาร์ทเนอร์ทันที เชื่อมกับ LINE — ไม่ต้องดาวน์โหลดแอปเพิ่ม',
+    action:null
+  },
+  {
+    page:'page-home',
+    title:'⏰ ระบบเวลาห้ามขาย',
+    body:'แอปเช็คเวลาอัตโนมัติ ก่อน 11:00, ช่วง 14:00–17:00, หลัง 24:00 — ล็อกปุ่มสั่งซื้อทันที ลดความเสี่ยงทางกฎหมาย',
+    action:null
+  },
+  {
+    page:'page-home',
+    title:'🛒 เพิ่มสินค้าเข้าตะกร้า',
+    body:'กดปุ่ม + ที่สินค้าใดก็ได้ ระบบจำจำนวนไว้ ใช้ได้เลยโดยไม่ต้อง login ก่อน',
+    action:()=>{ addToCart(1); addToCart(2); addToCart(1); }
+  },
+  {
+    page:'page-address',
+    title:'📍 ที่อยู่หลายแห่ง',
+    body:'บันทึกได้มากกว่า 1 แห่ง — บ้าน, ที่ทำงาน, บาร์ประจำ แตะเลือกได้เลย ลดปัญหาหมุดผิดตอนเมา',
+    action:()=>{ renderAddresses(); }
+  },
+  {
+    page:'page-order',
+    title:'🧮 คำนวณอัตโนมัติ',
+    body:'ราคารวม → VAT 7% → ค่าส่ง → ส่วนลด → Commission 10% คิดให้ครบในหน้าเดียว พร้อมปุ่มเรียก Grab',
+    action:()=>{ renderOrderPage(); }
+  },
+  {
+    page:'page-profile',
+    title:'🇹🇭 Thai ID + สมาชิก',
+    body:'ยืนยันตัวตนด้วยบัตรประชาชนดิจิทัล ตามกฎหมาย พร้อมระบบสมาชิก สะสมแต้ม และแชร์รับส่วนลด',
+    action:null
+  },
+  {
+    page:'page-admin',
+    title:'🔧 หลังบ้าน Admin',
+    body:'เจ้าของร้านดูยอดขาย ออเดอร์ real-time สต็อกใกล้หมด Commission ที่ได้รับ ครบในหน้าเดียว',
+    action:null
+  },
+  {
+    page:'page-home',
+    title:'🍸 พาร์ทเนอร์บาร์',
+    body:'บาร์ที่สั่งของกับเรา → ได้โฆษณาฟรี 14 วันบนแอป เราได้ฐานลูกค้าบาร์ — Win-Win ทั้งคู่',
+    action:null
+  },
+];
+
+let demoStep = 0;
+let demoRunning = false;
+
+function startDemo() {
+  demoStep = 0;
+  demoRunning = true;
+  document.getElementById('sim-splash').style.display = 'none';
+  showDemoStep();
+}
+
+function showDemoStep() {
+  if (demoStep >= DEMO_STEPS.length) {
+    endDemo(); return;
+  }
+  const s = DEMO_STEPS[demoStep];
+  showPage(s.page);
+  if (s.action) s.action();
+
+  const overlay = document.getElementById('demo-overlay');
+  document.getElementById('demo-title').textContent = s.title;
+  document.getElementById('demo-body').textContent = s.body;
+  document.getElementById('demo-counter').textContent = (demoStep+1) + ' / ' + DEMO_STEPS.length;
+  document.getElementById('demo-prev').style.visibility = demoStep > 0 ? 'visible' : 'hidden';
+  overlay.style.display = 'flex';
+
+  // progress bar
+  const pct = ((demoStep+1)/DEMO_STEPS.length)*100;
+  document.getElementById('demo-progress-fill').style.width = pct + '%';
+}
+
+function demoNext() {
+  demoStep++;
+  showDemoStep();
+}
+function demoPrev() {
+  if(demoStep > 0) { demoStep--; showDemoStep(); }
+}
+function endDemo() {
+  document.getElementById('demo-overlay').style.display = 'none';
+  demoRunning = false;
+  showPage('page-home');
+  showToast('🎉 จบ Simulation แล้ว! ลองใช้งานจริงได้เลย');
+}
+function closeSplash() {
+  document.getElementById('sim-splash').style.display = 'none';
+}
+</script>
+
+<!-- ═══ SIMULATION SPLASH ═══ -->
+<div id="sim-splash" style="
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,.75);
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  animation:fadeIn .3s ease;
+">
+  <div style="
+    background:#fff;border-radius:20px;padding:28px 24px;
+    max-width:380px;width:100%;text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.3);
+  ">
+    <div style="font-size:52px;margin-bottom:12px">🍾</div>
+    <div style="font-size:26px;font-weight:700;color:#1B2A4A;margin-bottom:4px;font-family:'Cormorant Garamond',serif;letter-spacing:1px">✦ Life Elixir</div><div style="font-size:11px;letter-spacing:2px;color:#B8922A;font-family:Sarabun,sans-serif;font-weight:600;margin-bottom:4px">CO.,LTD.</div>
+    <div style="font-size:14px;color:#7A7A7A;margin-bottom:6px;font-family:Sarabun,sans-serif;line-height:1.6">
+      Life Elixir Co.,Ltd. · Premium Delivery<br/>สำหรับลำปางและพื้นที่ใกล้เคียง
+    </div>
+    <div style="background:#E8FBE8;border-radius:10px;padding:12px;margin:14px 0;font-size:13px;color:#006600;font-family:Sarabun,sans-serif;line-height:1.7;text-align:left">
+      ✅ ยืนยันตัวตน Thai ID<br/>
+      ✅ ที่อยู่หลายแห่ง<br/>
+      ✅ ระบบเวลาห้ามขายอัตโนมัติ<br/>
+      ✅ คำนวณ VAT + ค่าส่ง + Commission<br/>
+      ✅ เรียก Grab ได้ในแอป<br/>
+      ✅ หลังบ้าน Admin ครบ
+    </div>
+    <button onclick="startDemo()" style="
+      width:100%;background:#00B900;color:#fff;border:none;
+      padding:15px;border-radius:14px;font-size:16px;font-weight:700;
+      cursor:pointer;font-family:Sarabun,sans-serif;margin-bottom:10px;
+      transition:background .15s;
+    " onmouseover="this.style.background='#111D33'" onmouseout="this.style.background='#1B2A4A'">
+      ▶ เริ่ม Simulation (8 ขั้นตอน)
+    </button>
+    <button onclick="closeSplash()" style="
+      width:100%;background:transparent;color:#7A7A7A;border:1.5px solid #E0E0E0;
+      padding:12px;border-radius:14px;font-size:14px;font-weight:600;
+      cursor:pointer;font-family:Sarabun,sans-serif;
+    ">
+      ข้ามและทดลองใช้เองเลย
+    </button>
+  </div>
+</div>
+
+<!-- ═══ DEMO STEP OVERLAY ═══ -->
+<div id="demo-overlay" style="
+  display:none;position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;z-index:900;
+  padding:0 0 calc(env(safe-area-inset-bottom) + 8px);
+">
+  <!-- dim top area -->
+  <div style="
+    background:linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,.55) 100%);
+    height:180px;pointer-events:none;
+  "></div>
+
+  <!-- step card -->
+  <div style="
+    background:#fff;border-radius:20px 20px 0 0;padding:20px 20px 16px;
+    box-shadow:0 -8px 32px rgba(0,0,0,.18);
+  ">
+    <!-- progress -->
+    <div style="background:#F2F2F2;border-radius:4px;height:4px;margin-bottom:14px;overflow:hidden">
+      <div id="demo-progress-fill" style="height:100%;background:#B8922A;border-radius:4px;transition:width .35s ease;width:0%"></div>
+    </div>
+
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px">
+      <div id="demo-title" style="font-size:17px;font-weight:700;color:#1A1A1A;font-family:Sarabun,sans-serif;flex:1"></div>
+      <div id="demo-counter" style="font-size:12px;color:#7A7A7A;font-family:Sarabun,sans-serif;margin-left:8px;white-space:nowrap;padding-top:3px"></div>
+    </div>
+    <div id="demo-body" style="font-size:14px;color:#3D3D3D;line-height:1.65;font-family:Sarabun,sans-serif;margin-bottom:16px"></div>
+
+    <div style="display:flex;gap:8px">
+      <button id="demo-prev" onclick="demoPrev()" style="
+        background:#F2F2F2;color:#3D3D3D;border:none;
+        padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;
+        cursor:pointer;font-family:Sarabun,sans-serif;visibility:hidden;
+        transition:background .15s;
+      " onmouseover="this.style.background='#E0E0E0'" onmouseout="this.style.background='#F2F2F2'">
+        ← ก่อนหน้า
+      </button>
+      <button onclick="demoNext()" style="
+        flex:1;background:#1B2A4A;color:#fff;border:none;
+        padding:12px;border-radius:12px;font-size:15px;font-weight:700;
+        cursor:pointer;font-family:Sarabun,sans-serif;
+        transition:background .15s;
+      " onmouseover="this.style.background='#111D33'" onmouseout="this.style.background='#1B2A4A'">
+        ถัดไป →
+      </button>
+      <button onclick="endDemo()" style="
+        background:#F2F2F2;color:#7A7A7A;border:none;
+        padding:12px 14px;border-radius:12px;font-size:13px;font-weight:600;
+        cursor:pointer;font-family:Sarabun,sans-serif;
+        transition:background .15s;
+      " onmouseover="this.style.background='#E0E0E0'" onmouseout="this.style.background='#F2F2F2'">
+        ✕ ออก
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
